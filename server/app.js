@@ -3,11 +3,13 @@ require("./config/database").connect();
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const cors = require('cors');
 
 const User = require("./model/user");
 const auth = require("./middleware/auth");
 
 const app = express();
+app.use(cors());
 
 app.use(express.json({ limit: "50mb" }));
 
@@ -86,8 +88,10 @@ app.post("/login", async (req, res) => {
 
       // user
       res.status(200).json(user);
+    }else{
+      res.status(400).send("Invalid Credentials");
     }
-    res.status(400).send("Invalid Credentials");
+    
   } catch (err) {
     console.log(err);
   }

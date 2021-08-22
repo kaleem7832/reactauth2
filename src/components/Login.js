@@ -1,42 +1,102 @@
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import {  Link } from "react-router-dom";
+import { useState } from "react";
+import Auth from "../auth/auth"
+import {Redirect} from "react-router-dom"
+import { useHistory } from "react-router-dom";
+
+const axios = require('axios');
+
+
+
 
 const Login = () => {
+
+  const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const history = useHistory();
+
+  function validateEmail(email) {
+    const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
+
+
+  const onSubmit = (e) =>{
+    e.preventDefault();
+    
+    
+    if(!validateEmail(email)){
+      setEmailError("Please provide valid email.");
+      return;
+    }else{
+      setEmailError("")
+    }
+
+    if(password.length < 8){
+      setPasswordError("Password at least 8 char long")
+      return;
+    }else{
+      setPasswordError("")
+    }
+    axios.post("http://localhost:4001/login",{email, password})
+    .then((response) => {
+      sessionStorage.setItem('token', response.data.token);
+      Auth.authenticate();
+      history.push("/dashboard");
+    })
+    .catch(function (error) {
+      console.log("error",error);
+    });
+
+
+  }
   return (
     <>
-      <div class="ui middle aligned center aligned stackable grid h-100">
-        <div class="six wide column">
-          <h2 class="ui teal image header">
-            <div class="content">Log-in to your account</div>
+      <div className="ui middle aligned center aligned stackable grid h-100">
+        <div className="six wide column">
+          <h2 className="ui teal image header">
+            <div className="content">Log-in to your account</div>
           </h2>
-          <form class="ui large form">
-            <div class="ui stacked segment">
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="user icon"></i>
+          <form className="ui large form error" onSubmit={onSubmit}>
+            <div className="ui segment">
+              <div className="field">
+                <div className="ui left icon input">
+                  <i className="user icon"></i>
                   <input
                     type="text"
                     name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="E-mail address"
                   />
                 </div>
               </div>
-              <div class="field">
-                <div class="ui left icon input">
-                  <i class="lock icon"></i>
+              <div className="field">
+                <div className="ui left icon input">
+                  <i className="lock icon"></i>
                   <input
                     type="password"
                     name="password"
                     placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
-              <div class="ui fluid large teal submit button">Login</div>
+              <button className="ui fluid large teal submit button" type="submit">Login</button>
             </div>
 
-            <div class="ui error message"></div>
+            <div class="ui error message">
+              {emailError}
+            </div>
+            <div class="ui error message">
+              {passwordError}
+            </div>
           </form>
 
-          <div class="ui message">
+          <div className="ui message">
             New to us? <Link to="/signup">Sign Up</Link>
           </div>
         </div>

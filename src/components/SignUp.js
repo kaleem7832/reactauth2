@@ -1,35 +1,35 @@
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import {  Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
-    <div class="ui middle aligned center aligned stackable grid h-100">
-      <div class="six wide column">
-        <h2 class="ui teal image header">
-          <div class="content">Create a new account</div>
+    <div className="ui middle aligned center aligned stackable grid h-100">
+      <div className="six wide column">
+        <h2 className="ui teal image header">
+          <div className="content">Create a new account</div>
         </h2>
-        <form class="ui large form">
-          <div class="ui stacked segment">
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="user icon"></i>
+        <form className="ui large form">
+          <div className="ui segment">
+            <div className="field">
+              <div className="ui left icon input">
+                <i className="user icon"></i>
                 <input type="text" name="name" placeholder="Name" />
               </div>
             </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="envelope icon"></i>
+            <div className="field">
+              <div className="ui left icon input">
+                <i className="envelope icon"></i>
                 <input type="email" name="email" placeholder="E-mail address" />
               </div>
             </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="lock icon"></i>
+            <div className="field">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
                 <input type="password" name="password" placeholder="Password" />
               </div>
             </div>
-            <div class="field">
-              <div class="ui left icon input">
-                <i class="lock icon"></i>
+            <div className="field">
+              <div className="ui left icon input">
+                <i className="lock icon"></i>
                 <input
                   type="password"
                   name="password2"
@@ -37,13 +37,13 @@ const SignUp = () => {
                 />
               </div>
             </div>
-            <div class="ui fluid large teal submit button">SIGN UP</div>
+            <div className="ui fluid large teal submit button">SIGN UP</div>
           </div>
 
-          <div class="ui error message"></div>
+          <div className="ui error message"></div>
         </form>
 
-        <div class="ui message">
+        <div className="ui message">
           Already a user? <Link to="/login">Sign in</Link>
         </div>
       </div>

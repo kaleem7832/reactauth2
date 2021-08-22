@@ -1,12 +1,20 @@
 const Auth = {
   isAuthenticated: false,
   authenticate() {
-    this.isAuthenticated = true;
+    var token  = sessionStorage.getItem('token');
+    if(token){
+     this.isAuthenticated = true;
+    }
   },
   signout() {
+    sessionStorage.removeItem('token');
     this.isAuthenticated = false;
   },
   getAuth() {
+    var token  = sessionStorage.getItem('token');
+    if(token){
+     this.isAuthenticated = true;
+    }
     return this.isAuthenticated;
   }
 };
