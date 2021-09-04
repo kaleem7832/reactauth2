@@ -3,7 +3,7 @@ require("./config/database").connect();
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const cors = require('cors');
+const cors = require("cors");
 
 const User = require("./model/user");
 const auth = require("./middleware/auth");
@@ -16,11 +16,11 @@ app.use(express.json({ limit: "50mb" }));
 app.post("/register", async (req, res) => {
   try {
     // Get user input
-    const { first_name, last_name, email, password } = req.body;
+    const { name, email, password } = req.body;
 
     // Validate user input
-    if (!(email && password && first_name && last_name)) {
-      res.status(400).send("All input is required"+req.body.email);
+    if (!(email && password && name)) {
+      res.status(400).send("All input is required" + req.body.email);
     }
 
     // check if user already exist
@@ -36,8 +36,7 @@ app.post("/register", async (req, res) => {
 
     // Create user in our database
     const user = await User.create({
-      first_name,
-      last_name,
+      name,
       email: email.toLowerCase(), // sanitize: convert email to lowercase
       password: encryptedPassword,
     });
@@ -88,15 +87,13 @@ app.post("/login", async (req, res) => {
 
       // user
       res.status(200).json(user);
-    }else{
+    } else {
       res.status(400).send("Invalid Credentials");
     }
-    
   } catch (err) {
     console.log(err);
   }
 });
-
 
 app.get("/welcome", auth, (req, res) => {
   res.status(200).send("Welcome 🙌 ");
