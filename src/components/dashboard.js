@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 
+import Auth from "./../auth/auth"
+
+import { useHistory } from "react-router-dom";
+
+
+
 const Dashboard = () => {
   const [name, setName] = useState("");
 
@@ -7,6 +13,17 @@ const Dashboard = () => {
     setName(sessionStorage.getItem("name"));
   });
 
-  return <h1>Welcome, {name}!</h1>;
+  const history = useHistory();
+
+
+  const Signout = () => {
+    Auth.signout();
+    history.push("/");
+  }
+
+  return (<>
+    <h1>Welcome, {name}!</h1>
+    <button onClick={Signout}>  Sign out!</button>
+  </>);
 };
 export default Dashboard;
